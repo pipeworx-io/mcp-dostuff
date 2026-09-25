@@ -1,6 +1,6 @@
 {
   "name": "@pipeworx/mcp-dostuff",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DoStuff network MCP.",
   "type": "module",
   "main": "src/index.ts",
@@ -26,7 +26,7 @@
     "@cloudflare/workers-types": "^4.20260405.1"
   },
   "pipeworx": {
-    "sourceHash": "v1-de792340ca9bcea4037ce4787b72fc99304e9aa97607d838bcfee2c805d96595",
-    "sourceCommit": "76aa8f5d9b5dc2f665563030647c68e661478864"
+    "sourceHash": "v1-c45b4a89173ed64cc247b7bdd7539dbcceae21b209858d2108aabd47b9b14e8f",
+    "sourceCommit": "4fa4c64448be06f4a2ee4cee19f756f3558a7cad"
   }
 }
