@@ -673,10 +673,11 @@ function collapse(s: string): string {
 /**
  * DoStuff network MCP.
  *
- * Curated "things to do" / events for major US metros, from the DoStuff Media
- * network (DoNYC, Do312, Do617, etc.). Each metro exposes a keyless per-day
- * JSON feed at https://<host>.com/events/YYYY/M/D.json with structured events
- * (title, category, start/end times, venue, artists, is_free, popularity).
+ * Curated "things to do" / events for DoStuff Media network metros — mostly
+ * US, plus two Canadian properties (Vancouver, Victoria). Each metro exposes
+ * a keyless per-day JSON feed at https://<host>.com/events/YYYY/M/D.json with
+ * structured events (title, category, start/end times, venue, artists,
+ * is_free, popularity).
  */
 
 
@@ -691,7 +692,15 @@ async function pwFetch(url: string | URL, init?: RequestInit): Promise<Response>
 // DoStuff returns 403 to non-browser User-Agents, so present a standard browser UA.
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
-/** friendly slug → { host subdomain, display name } */
+/**
+ * friendly slug → { host subdomain, display name }
+ *
+ * Full list pulled live from DoStuff's own cross-network footer (donyc.com,
+ * 2026-10-02) rather than trusted from any prior hardcoded set — that footer
+ * is the only place DoStuff itself enumerates its current city properties.
+ * Every host below was individually confirmed to serve the same per-day JSON
+ * feed shape as the original 6 (fleet #2670 / feedback #43).
+ */
 const METROS: Record<string, { host: string; name: string }> = {
   nyc: { host: 'donyc', name: 'New York City' },
   chicago: { host: 'do312', name: 'Chicago' },
@@ -699,6 +708,21 @@ const METROS: Record<string, { host: string; name: string }> = {
   austin: { host: 'do512', name: 'Austin' },
   'san-antonio': { host: 'do210', name: 'San Antonio' },
   'sf-bay': { host: 'dothebay', name: 'San Francisco Bay Area' },
+  la: { host: 'dolosangeles', name: 'Los Angeles' },
+  seattle: { host: 'do206', name: 'Seattle' },
+  denver: { host: 'do303', name: 'Denver & Boulder' },
+  'san-diego': { host: 'dosd', name: 'San Diego' },
+  portland: { host: 'dopdx', name: 'Portland' },
+  dallas: { host: 'do214', name: 'Dallas / Ft. Worth' },
+  houston: { host: 'do713', name: 'Houston' },
+  nashville: { host: 'do615', name: 'Nashville' },
+  philadelphia: { host: 'do215', name: 'Philadelphia' },
+  indianapolis: { host: 'do317', name: 'Indianapolis' },
+  'kansas-city': { host: 'do816', name: 'Kansas City' },
+  louisville: { host: 'do502', name: 'Louisville' },
+  'st-louis': { host: 'do314', name: 'St. Louis' },
+  vancouver: { host: 'do604', name: 'Vancouver, BC' },
+  victoria: { host: 'do250', name: 'Victoria, BC' },
 };
 
 const MAX_DAYS = 7;
@@ -716,7 +740,17 @@ const tools: McpToolExport['tools'] = [
     inputSchema: {
       type: 'object',
       properties: {
-        metro: { type: 'string', description: 'Metro slug: nyc, chicago, boston, austin, san-antonio, sf-bay. Use the metros tool to list.' },
+        metro: {
+          type: 'string',
+          description:
+            'Metro slug: nyc, chicago, boston, austin, san-antonio, sf-bay, la, seattle, denver, san-diego, portland, dallas, houston, nashville, philadelphia, indianapolis, kansas-city, louisville, st-louis, vancouver, victoria. Use the metros tool to list.',
+          enum: [
+            'nyc', 'chicago', 'boston', 'austin', 'san-antonio', 'sf-bay',
+            'la', 'seattle', 'denver', 'san-diego', 'portland', 'dallas',
+            'houston', 'nashville', 'philadelphia', 'indianapolis', 'kansas-city',
+            'louisville', 'st-louis', 'vancouver', 'victoria',
+          ],
+        },
         date: { type: 'string', description: 'Start date YYYY-MM-DD (default: today, US Eastern).' },
         days: { type: 'number', description: 'How many days from the start date to include (1-7, default 1). Use 3 for a weekend.' },
         category: { type: 'string', description: 'Filter by category, e.g. "music", "art", "comedy", "performing-arts", "food-drink".' },
