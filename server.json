@@ -3,7 +3,7 @@
   "name": "io.github.pipeworx-io/dostuff",
   "title": "Dostuff",
   "description": "DoStuff network MCP.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "websiteUrl": "https://pipeworx.io/packs/dostuff",
   "repository": {
     "url": "https://github.com/pipeworx-io/mcp-dostuff",
