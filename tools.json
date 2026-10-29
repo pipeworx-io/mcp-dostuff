@@ -1,0 +1,69 @@
+[
+  {
+    "name": "metros",
+    "description": "List the metros DoStuff covers (slug + name). Pass a slug to the events tool.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {}
+    }
+  },
+  {
+    "name": "events",
+    "description": "Curated things-to-do / events for a DoStuff metro. Defaults to today; pass `date` and/or `days` to cover a window (e.g. a weekend). Optionally filter by category (music, art, performing-arts, comedy, food-drink, other-fun-deals) and free-only. Sorted by start time.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "metro": {
+          "type": "string",
+          "description": "Metro slug: nyc, chicago, boston, austin, san-antonio, sf-bay, la, seattle, denver, san-diego, portland, dallas, houston, nashville, philadelphia, indianapolis, kansas-city, louisville, st-louis, vancouver, victoria. Use the metros tool to list.",
+          "enum": [
+            "nyc",
+            "chicago",
+            "boston",
+            "austin",
+            "san-antonio",
+            "sf-bay",
+            "la",
+            "seattle",
+            "denver",
+            "san-diego",
+            "portland",
+            "dallas",
+            "houston",
+            "nashville",
+            "philadelphia",
+            "indianapolis",
+            "kansas-city",
+            "louisville",
+            "st-louis",
+            "vancouver",
+            "victoria"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "description": "Start date YYYY-MM-DD (default: today, US Eastern)."
+        },
+        "days": {
+          "type": "number",
+          "description": "How many days from the start date to include (1-7, default 1). Use 3 for a weekend."
+        },
+        "category": {
+          "type": "string",
+          "description": "Filter by category, e.g. \"music\", \"art\", \"comedy\", \"performing-arts\", \"food-drink\"."
+        },
+        "free_only": {
+          "type": "boolean",
+          "description": "If true, only return free events."
+        },
+        "limit": {
+          "type": "number",
+          "description": "Max events to return (1-200, default 50)."
+        }
+      },
+      "required": [
+        "metro"
+      ]
+    }
+  }
+]
